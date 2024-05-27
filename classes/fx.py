@@ -72,11 +72,12 @@ class Fx:
         col_xb = {'name': c for c in cols if c.startswith('MACD') and ('_XB_' in c)}
         if not col_xa or not col_xb:
             return
-
+        ca = col_xa['name']
+        cb = col_xb['name']
         self.df.dropna(inplace=True, ignore_index=True)
         # apply
         self.df[['fx_type', 'fx_mode']] = DataFrame(
-            self.df[[col_xa, col_xb]].apply(macd_x, axis=1).values.tolist()
+            self.df[[ca, cb]].apply(macd_x, axis=1).values.tolist()
         )
 
     def _evaluate_rsi(self):

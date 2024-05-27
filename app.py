@@ -112,7 +112,7 @@ def run(app):
             r.gen_signal(preset)
             data_ts = report.setts(datetime.fromtimestamp(int(r.epoch_ms)/1000))
             delta_ts = system_ts - data_ts
-            if (not status) or (not r.action) or (delta_ts > x.timeframe + 5):
+            if (not status) or (not r.action) or (delta_ts.total_seconds()/60 > x.timeframe + 5):
                 continue
             report_time = data_ts.strftime("%Y-%m-%d %H:%M:%S")
             logger.info(f'Signal: {symbol}, {r.action}, {r.mode.upper()}, {r.price} at {report_time}')
@@ -121,10 +121,16 @@ def run(app):
             logger.debug(f'{symbol} - ' + r.df.tail(1).iloc[:, debug_col_idx].to_string(header=False))
 
             # Check signal
-            if r.action in ('open',):
-                report.print_notify(
-                    f'>> {symbol}: Open-{r.mode.upper()} by {x.volume} at {report_time}')
-                logger.info(report.lastmsg.strip())
+            if r.action.lower() in ('open',):
+                tech = ind_presets.get(preset)
+                fast = tech[0].get('fast')
+                slow = tech[0].get('slow')
+                if r.mode.lower() in ('buy',):
+                    report.print_notify(f'>> {symbol}: EMA {fast}/{slow} Cross-UP at {report_time}')
+                    logger.info(report.lastmsg.strip())
+                else:
+                    report.print_notify(f'>> {symbol}: EMA {fast}/{slow} Cross-DOWN at {report_time}')
+                    logger.info(report.lastmsg.strip())
 
     client.logout()
     # stop conn, send chat notification
