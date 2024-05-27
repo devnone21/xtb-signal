@@ -1,0 +1,20 @@
+{
+    "rayId": "QAZwsx123456",
+    "_comment": "Local json",
+    "profiles": [
+        {
+            "name": "demo-1",
+            "param": {
+                "account": "15580085",
+                "breaker": false,
+                "symbols": ["GOLD", "OIL.WTI"],
+                "timeframe": 15,
+                "volume": 0.01,
+                "rate_tp": 0,
+                "rate_sl": 0,
+                "indicator": "rsi",
+                "ind_preset": "TA_RSI_L14_XA70_XB30"
+            }
+        }
+    ]
+}
