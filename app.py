@@ -123,8 +123,8 @@ def run(app):
             # Check signal
             if r.action.lower() in ('open',):
                 tech = ind_presets.get(preset)
-                fast = tech[0].get('fast')
-                slow = tech[0].get('slow')
+                fast = tech[0].get('length')
+                slow = tech[1].get('length')
                 if r.mode.lower() in ('buy',):
                     report.print_notify(f'>> {symbol}: EMA {fast}/{slow} Cross-UP at {report_time}')
                     logger.info(report.lastmsg.strip())
